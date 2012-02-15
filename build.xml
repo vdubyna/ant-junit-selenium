@@ -1,17 +1,11 @@
-<project name="hello" default="dist" basedir=".">
-  <description>KSB's ant 'Hello, world' build.xml example</description>
-
+<project name="hello" default="test" basedir=".">
   <property name="src.dir"   value="src"/>
   <property name="build.dir" value="build"/>
-  <property name="dist.dir"  value="dist"/>
+  <!--<property name="dist.dir"  value="dist"/>-->
   <property name="junit.dir" value="junit-results"/>
   <property name="lib.dir"   value="lib"/>
-  <property name="jar.name"  value="hello.jar"/>
 
-  <property name="junit.jar" location="lib/junit.jar"/>
-  <property name="core.jar" location="lib/core.jar"/>
-  <property name="test.class" value="hello.HelloTest"/>
-  <property name="main-class" value="hello.Hello"/>
+  <property name="junit.jar" location="lib/junit-4.10.jar"/>
 
   <path id="classpath">
     <pathelement location="${build.dir}" />
@@ -23,7 +17,7 @@
 
   <target name="init">
     <mkdir dir="${build.dir}"/>
-    <mkdir dir="${dist.dir}"/>
+    <!--<mkdir dir="${dist.dir}"/>-->
     <mkdir dir="${junit.dir}"/>
   </target>
 
@@ -34,14 +28,14 @@
     </javac>
   </target>
 
-  <target name="test" depends="build" description="unit test" >
+  <target name="test" description="unit test" >
     <dirname property="junit.raw" file="${junit.dir}/raw/"/>
     <mkdir dir="${junit.raw}" />
     <junit errorProperty="test.failed" failureProperty="test.failed">
       <batchtest fork="yes" todir="${junit.raw}"> 
         <formatter type="xml"/> 
         <fileset dir="${src.dir}"> 
-          <include name="**/*Test*.java"/> 
+          <include name="**/*Test.java"/>
         </fileset> 
       </batchtest> 
       <formatter type="brief" usefile="false" />
@@ -50,6 +44,7 @@
     </junit>
     <fail message="Tests failed: check test reports." if="test.failed" />
   </target>
+<!--
 
   <target name="dist" depends="build" description="generate the distribution" >
     <jar jarfile="${dist.dir}/${jar.name}" basedir="${build.dir}">
@@ -67,10 +62,11 @@
       </classpath>
     </java>
   </target>
+-->
 
   <target name="clean" description="clean up" >
     <delete dir="${build.dir}"/>
-    <delete dir="${dist.dir}"/>
+    <!--<delete dir="${dist.dir}"/>-->
     <delete dir="${junit.dir}"/>
   </target>
 </project>
